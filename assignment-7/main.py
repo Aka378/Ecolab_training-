@@ -117,4 +117,21 @@ class atm(bank,BankAccount):
     def info(self):
         print("*"*100)
         print(f'ACCNUM:{self._accNo}\tNAME:{self._name}\nAccType:{self._accType}\tBALANCE:{self._balance}')
-        print("_"*100)            
+        print("_"*100)
+b = atm("BOB","TUM","BOBTUM")
+b.create("SA","arun",56000,1018,8)
+b.info()
+b.deposit(5000)
+# b.withdraw(56000)
+# print(b._balance)
+
+c = atm("BOB","TUM","BOBTUM")
+c.create("SA","varun",5000,1018,8)
+c.info()
+c.deposit(5000)
+c.withdraw(56000)
+b.transfer(c,5000,1018)
+c.info()        
+        
+        
+        
