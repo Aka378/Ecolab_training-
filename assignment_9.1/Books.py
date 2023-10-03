@@ -1,74 +1,96 @@
+class Book:
+    def __init__(self, id, title, author, price, rating):
+        self.id = id
+        self.title = title
+        self.author = author
+        self.price = price
+        self.rating = rating
+
+class Bookstore:
+    def __init__(self):
+        self.books = []
+
+    def add_book(self, book):
+        self.books.append(book)
+
+    def find_by_id(self, book_id):
+        for book in self.books:
+            if book.id == book_id:
+                return book
+        return None
+
+    def find_by_author(self, author_name):
+        books_by_author = []
+        for book in self.books:
+            if book.author == author_name:
+                books_by_author.append(book)
+        return books_by_author
+
+    def find_by_rating_range(self, min_rating, max_rating):
+        books_in_range = []
+        for book in self.books:
+            if min_rating <= book.rating <= max_rating:
+                books_in_range.append(book)
+        return books_in_range
+
+    def find_by_price_range(self, min_price, max_price):
+        books_in_range = []
+        for book in self.books:
+            if min_price <= book.price <= max_price:
+                books_in_range.append(book)
+        return books_in_range
 
 
-def is_leap_year(year):
-    return (year%100!=0 and year%4==0) or year%400==0
+# create some books
+book1 = Book(1, "Accursed God", "vivek", 2000, 4.5)
+book2 = Book(2, "naruto", "masashi kishimoto", 1500, 4.2)
+book3 = Book(3, "naruto shippuden", "masashi kishimoto", 2500, 4.8)
 
-def days_in_month(month , year):
-    if month==2:
-        return 28+int(is_leap_year(year))        
-    elif (month<8 and month%2!=0) or (month>=8 and month%2==0):
-        return 31
+# create a bookstore to add books
+bookstore = Bookstore()
+bookstore.add_book(book1)
+bookstore.add_book(book2)
+bookstore.add_book(book3)
+while True:
+    print("\nMenu:")
+    print("1. Find book by ID")
+    print("2. Find books by author")
+    print("3. Find books by rating range")
+    print("4. Find books by price range")
+    print("5. Exit")
+    
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        book_id = int(input("Enter book ID: "))
+        found_book = bookstore.find_by_id(book_id)
+        if found_book:
+            print(f"Title: {found_book.title}, Author: {found_book.author}")
+        else:
+            print("Book not found.")
+    elif choice == "2":
+        author_name = input("Enter author's name: ")
+        books_by_author = bookstore.find_by_author(author_name)
+        print("\nBooks found by author:")
+        for book in books_by_author:
+            print(f"Title: {book.title}, Author: {book.author}")
+    elif choice == "3":
+        min_rating = float(input("Enter minimum rating: "))
+        max_rating = float(input("Enter maximum rating: "))
+        books_by_rating = bookstore.find_by_rating_range(min_rating, max_rating)
+        print("\nBooks found by rating range:")
+        for book in books_by_rating:
+            print(f"Title: {book.title}, Rating: {book.rating}")
+    elif choice == "4":
+        min_price = float(input("Enter minimum price: "))
+        max_price = float(input("Enter maximum price: "))
+        books_by_price = bookstore.find_by_price_range(min_price, max_price)
+        print("\nBooks found by price range:")
+        for book in books_by_price:
+            print(f"Title: {book.title}, Price: ${book.price}")
+    elif choice == "5":
+        print("Exiting the search menu")
+        break
     else:
-        return 30
+        print("Invalid choice.")
 
-def date_value(day ,month, year):
-    value=0
-    y=year-1
-    # total days elapsed till the end of previous year
-    value = y * 365 + y//4  - y//100 + y//400
-
-    # add total days passed till previous month of this year
-    m=1
-    while m<month:
-        #print(f'Adding {days_in_month(m,year)} for {m}/{year}')
-        value+= days_in_month(m,year)
-        m+=1
-
-    #add days of this month
-    value+=day
-    return value
-
-def date_to_week_day(date,month,year):
-    ref_date = date_value(1,1,2006)
-    input_date= date_value(date,month,year)
-    diff= (input_date-ref_date) % 7
-    return diff
-
-
-def print_calendar_horizontal(month,year):
-    startDay=date_to_week_day(1,month,year)
-    days=days_in_month(month,year)
-    m=0
-    n=0
-    
-    week=['Sun','Mon','Tue','wed','thu','fri','Sat']
-    for i in range(7):
-        print(week[i],end="\t")
-        t=1
-        
-        if i< startDay:
-            d=(7-startDay)+m
-            print(" ", end="\t")
-            for i in range(5):
-             if d<days:
-                print(d+1,end="\t")
-                d+=7
-            m=m+1    
-        if i>=startDay:
-            t=t+n
-            for i in range(5):
-             if t<=days:
-              print(t,end="\t")
-              t=t+7
-            n=n+1  
-
-        
-                   
-        print()    
-    
-        
-print_calendar_horizontal(3,2023)    
-
-
-def sum(a,b):
-    return a+b
