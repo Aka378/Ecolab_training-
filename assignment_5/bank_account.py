@@ -29,7 +29,7 @@ def info(account):
     return f'Account Number: {account.account_number}\nName: {account.name}\nBalance: {account.balance}'
 
 # Example usage:
-account = create(123456, "John Doe", "password123", 1000, 5.0)
+account = create(36542014, "Akash patil", "password378", 100000, 5.75)
 
 print(info(account))
 print()
