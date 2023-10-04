@@ -1,126 +1,131 @@
-
 class Node:
-    def __init__(self,data):
-        self.data = data
-        self.next = None
+    def __init__(self, value,next_node= None,previous_node=None):
+        self.value = value
+        self.next = next_node
+        self.previous = previous_node
 
 class LinkedList:
     def __init__(self):
-        self.head = None
-        self.tail = None
-        self.size = 0
+        self.first = None
 
-    def append(self,data):
-        newN = Node(data)
-        if self.head==None:
-            self.tail = newN
-            self.head = newN
+    def append(self, value):
+        new_node = Node(value)
+        if not self.first:
+            self.first = new_node
         else:
-            self.tail.next = newN
-            self.tail = newN
-        self.size+=1
+            current = self.first
+            while current.next:
+                current = current.next
+            current.next = new_node
+            new_node.previous = current
 
-    def insert(self,pos,data):
-        if pos<0 and pos>self.size:
-            print("Invalid position")
-        
-        newN = Node(data)
-        if pos==0:
-             newN.next = self.head
-             self.head = newN
-             return
-        
-        cur = self.head
-        prev = None
-        count = 0
-        while count<pos and cur:
-            prev = cur
-            cur = cur.next
-            count+=1
-        if count==pos:
-            prev.next=newN
-            newN.next=cur
-        else:
-            print('Position out of range')
-        
-        self.size +=1
-
-    def remove(self,pos):
-        if pos<0 or pos>=self.size:
-            print("Invalid position")
-            return None
-        
-        if pos==0:
-             rem_data = self.head.data
-             self.head = self.head.next
-             self.size-=1
-             return rem_data
-        
-        cur = self.head
-        prev = None
-        count = 0
-
-        while count<pos and cur:
-            prev = cur
-            cur = cur.next
-            count+=1
-
-        if count==pos:
-            rem_data = cur.data
-            prev.next = cur.next
-
-            if count == self.size-1:
-                self.tail = prev
-            self.size-=1
-            return rem_data
-            
-        else:
-            print('Position out of range')
-            return None
-        
-        
-
-    def get(self,pos):
-        cur = self.head
-        for i in range(pos-1):
-            cur = cur.next
-        return cur.next.data
-    
-    def set(self,pos,data):
-        cur = self.head
-        for i in range(pos-1):
-            cur = cur.next
-        cur.data = data
-
-    def sizeofL(self):
-        return self.size
-    
     def info(self):
-        cur = self.head
-        for i in range(self.size-1):
-            print(f'{cur.data}->',end="")
-            cur = cur.next
-        print("None")
+        if not self.first:
+            return "LinkedList(empty)"
+        result = "LinkedList(\t"
+        current = self.first
+        while current:
+            result += f'{current.value}\t'
+            current = current.next
+        result += ")"
+        return result
 
-    def remove(self,pos):
-        if pos<0 and pos>self.size:
-            print("Invalid position")
-                  
+    def size(self):
+        count = 0
+        current = self.first
+        while current:
+            count += 1
+            current = current.next
+        return count
+
+    def get(self, index):
+        current = self.first
+        for i in range(index):
+            if current:
+                current = current.next
+            else:
+                return None
+        return current.value if current else None
+
+    def set(self, index, value):
+        current = self.first
+        for i in range(index):
+            if current:
+                current = current.next
+            else:
+                return False
+        if current:
+            current.value = value
+            return True
+        return False
+
+    def insert(self, index, value):
+        new_node = Node(value)
+        if index == 0:
+            new_node.next = self.first
+            if self.first:
+                self.first.previous = new_node
+            self.first = new_node
+        else:
+            current = self.first
+            for i in range(index - 1):
+                if current:
+                    current = current.next
+                else:
+                    return False
+            if current:
+                new_node.next = current.next
+                new_node.previous = current
+                if current.next:
+                    current.next.previous = new_node
+                current.next = new_node
+            else:
+                return False
+        return True
+
+    def remove(self, index):
+        current = self.first
+        for i in range(index):
+            if current:
+                current = current.next
+            else:
+                return None
+        if current:
+            if current.previous:
+                current.previous.next = current.next
+            if current.next:
+                current.next.previous = current.previous
+            if current == self.first:
+                self.first = current.next
+            return current.value
+        return None
     
-    def clear(self):
-        self.head = None
-        self.tail = None
-        self.size = 0
-            
+my_list = LinkedList()
 
-            
-SLL=LinkedList()
-for i in range(10):
-    SLL.append(i+1)
-SLL.insert(6,5)
-SLL.info()
-SLL.remove(0)
+# append elements to the list
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
 
-SLL.info()
+# print the current state of the list
+print("Original LinkedList:")
+print(my_list.info())
 
- 
+# get the size of the list
+print("Size of the LinkedList:", my_list.size())
+
+#get and set values at specific indices
+print("Element at index 1:", my_list.get(1))
+my_list.set(1, 4)
+print("Updated element at index 1:", my_list.get(1))
+
+# insert a new element at index 1
+my_list.insert(1, 5)
+print("LinkedList after insertion:")
+print(my_list.info())
+
+# remove element at index 2
+removed_value = my_list.remove(2)
+print("Removed element:", removed_value)
+print("LinkedList after removal:")
+print(my_list.info())    
