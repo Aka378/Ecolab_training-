@@ -42,9 +42,9 @@ class Bookstore:
 
 
 # create some books
-book1 = Book(1, "Accursed God", "vivek", 2000, 4.5)
-book2 = Book(2, "naruto", "masashi kishimoto", 1500, 4.2)
-book3 = Book(3, "naruto shippuden", "masashi kishimoto", 2500, 4.8)
+book1 = Book(1, "book1", "author1", 2000, 4.5)
+book2 = Book(2, "book2", "author2", 1500, 4.2)
+
 
 # create a bookstore to add books
 bookstore = Bookstore()
