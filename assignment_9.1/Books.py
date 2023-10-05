@@ -59,38 +59,33 @@ class Bookstore:
         return books_in_range
 
 # create some books
-book1 = Book(1, "book1", "author1", 2000, 4.5)
-book2 = Book(2, "book2", "author2", 1500, 4.2)
+book1 = Book(1, "A river sutra", "Gita mehta", 2000, 4.5)
+book2 = Book(2, "A sense of time", "H.S.vatsyan", 1500, 4.2)
+book3 = Book(3, "An equal music", "Gita mehta", 2000, 4.5)
+book4 = Book(4, "Amar kosh", "Amar singh", 1500, 4.2)
 
 # create a bookstore to add books
 bookstore = Bookstore()
 bookstore.add_book(book1)
 bookstore.add_book(book2)
-
+bookstore.add_book(book3)
+bookstore.add_book(book4)
 # Example usage of Bookstore class methods
-book_id = 1
-found_book = bookstore.find_by_id(book_id)
-if found_book:
-    print(f"Title: {found_book.title}, Author: {found_book.author}")
-else:
-    print("Book not found.")
+print("books found:")
+Find_by_id=bookstore.find_by_id(1)
+print(Find_by_id.author,Find_by_id.title)
 
-author_name = "author1"
-books_by_author = bookstore.find_by_author(author_name)
-print("\nBooks found by author:")
-for book in books_by_author:
-    print(f"Title: {book.title}, Author: {book.author}")
+print("\nbooks found by author:")    
+Find_by_author=bookstore.find_by_author("Gita mehta")
+for i in Find_by_author:
+    print(i.title)
 
-min_rating = 4.0
-max_rating = 4.5
-books_by_rating = bookstore.find_by_rating_range(min_rating, max_rating)
-print("\nBooks found by rating range:")
-for book in books_by_rating:
-    print(f"Title: {book.title}, Rating: {book.rating}")
+print("\nbooks found by rating:")
+Find_by_rating=bookstore.find_by_rating_range(4.0,4.5)
+for i in Find_by_rating:
+    print(i.title)
 
-min_price = 1000
-max_price = 2000
-books_by_price = bookstore.find_by_price_range(min_price, max_price)
-print("\nBooks found by price range:")
-for book in books_by_price:
-    print(f"Title: {book.title}, Price: ${book.price}")
+print("\nbooks found by price:")
+Find_by_price=bookstore.find_by_price_range(1000,2500)
+for i in Find_by_price:
+    print(i.title)
